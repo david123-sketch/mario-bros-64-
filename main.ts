@@ -82,48 +82,12 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Bumper, function (sprite, otherS
     pause(invencibilidad)
 })
 function AnimaciónPerfiDerecho () {
+    perfilDer = true
     perfilDer = animation.createAnimation(ActionKind.IdleRight, 100)
-    animation.attachAnimation(mariobros64, perfilDer)
-    perfilDer.addAnimationFrame(img`
-        . . . . . . . f f . . . . . . . 
-        . . . . . . f 2 2 f . . . . . . 
-        . . . . . f 2 5 5 2 f . . . . . 
-        . . . . f 2 2 1 1 2 2 f . . . . 
-        . . . f 2 2 1 2 2 1 2 2 f . . . 
-        . . f f 1 1 2 5 5 2 1 1 f f . . 
-        . . 8 2 d d d d d d d d 2 8 . . 
-        . . f d d f f d d f f d d f . . 
-        . . f d d 1 8 d d 1 8 d d f . . 
-        . . f d d d d d d d d d d f . . 
-        . . f d d e e e e e e d d f . . 
-        . . . f e e e e e e e e f . . . 
-        . . . . f d d d d d d f . . . . 
-        . . . . . f f f f f f . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `)
 }
 function AnimaciónPerfiIzquierdo () {
-    perfilIzq = animation.createAnimation(ActionKind.IdleLeft, 100)
-    animation.attachAnimation(mariobros64, perfilIzq)
-    perfilIzq.addAnimationFrame(img`
-        . . . . . . . f f . . . . . . . 
-        . . . . . . f 2 2 f . . . . . . 
-        . . . . . f 2 5 5 2 f . . . . . 
-        . . . . f 2 2 1 1 2 2 f . . . . 
-        . . . f 2 2 1 2 2 1 2 2 f . . . 
-        . . f f 1 1 2 5 5 2 1 1 f f . . 
-        . . 8 2 d d d d d d d d 2 8 . . 
-        . . f d d f f d d f f d d f . . 
-        . . f d d 8 1 d d 8 1 d d f . . 
-        . . f d d d d d d d d d d f . . 
-        . . f d d e e e e e e d d f . . 
-        . . . f e e e e e e e e f . . . 
-        . . . . f d d d d d d f . . . . 
-        . . . . . f f f f f f . . . . . 
-        . . . . . . . . . . . . . . . . 
-        . . . . . . . . . . . . . . . . 
-        `)
+    perfilIzq = true
+    perfilIzq.setVelocity(75, 0)
 }
 controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     Salto()
@@ -227,6 +191,52 @@ function VoladoresAnimación () {
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     Salto()
 })
+function AnimacionesPerfiles () {
+    if (mariobros64.vx < 0) {
+        perfilIzq = true
+        animation.attachAnimation(mariobros64, perfilDer)
+        perfilIzq.addAnimationFrame(img`
+            . . . . . . . f f . . . . . . . 
+            . . . . . . f 2 2 f . . . . . . 
+            . . . . . f 2 5 5 2 f . . . . . 
+            . . . . f 2 2 1 1 2 2 f . . . . 
+            . . . f 2 2 1 2 2 1 2 2 f . . . 
+            . . f f 1 1 2 5 5 2 1 1 f f . . 
+            . . 8 2 d d d d d d d d 2 8 . . 
+            . . f d d f f d d f f d d f . . 
+            . . f d d 8 1 d d 8 1 d d f . . 
+            . . f d d d d d d d d d d f . . 
+            . . f d d e e e e e e d d f . . 
+            . . . f e e e e e e e e f . . . 
+            . . . . f d d d d d d f . . . . 
+            . . . . . f f f f f f . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `)
+    }
+    if (mariobros64.vx > 0) {
+        perfilDer = true
+        animation.attachAnimation(mariobros64, perfilDer)
+        perfilDer.addAnimationFrame(img`
+            . . . . . . . f f . . . . . . . 
+            . . . . . . f 2 2 f . . . . . . 
+            . . . . . f 2 5 5 2 f . . . . . 
+            . . . . f 2 2 1 1 2 2 f . . . . 
+            . . . f 2 2 1 2 2 1 2 2 f . . . 
+            . . f f 1 1 2 5 5 2 1 1 f f . . 
+            . . 8 2 d d d d d d d d 2 8 . . 
+            . . f d d f f d d f f d d f . . 
+            . . f d d 1 8 d d 1 8 d d f . . 
+            . . f d d d d d d d d d d f . . 
+            . . f d d e e e e e e d d f . . 
+            . . . f e e e e e e e e f . . . 
+            . . . . f d d d d d d f . . . . 
+            . . . . . f f f f f f . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `)
+    }
+}
 function IniciarNivel (level: number) {
     effects.clouds.startScreenEffect()
     ubicaciónInicial = tiles.getTilesByType(img`
@@ -269,7 +279,7 @@ function Salto () {
 function SiguienteNivel () {
     return nivelActual != numeroNiveles
 }
-function CrearJUgador (player2: Sprite) {
+function CrearJugador (player2: Sprite) {
     player2.ay = gravedad
     scene.cameraFollowSprite(player2)
     controller.moveSprite(player2, 100, 0)
@@ -873,8 +883,8 @@ let dobleSalto = false
 let ubicaciónInicial: tiles.Location = null
 let voladoresPerfiles: animation.Animation = null
 let voladoresVuelo: animation.Animation = null
-let perfilIzq: animation.Animation = null
-let perfilDer: animation.Animation = null
+let perfilIzq = false
+let perfilDer = false
 let nivelActual = 0
 let numeroNiveles = 0
 let gravedad = 0
@@ -899,8 +909,6 @@ mariobros64 = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Player)
-// how long to pause between each contact with a
-// single enemy
 invencibilidad = 600
 pxm = 30
 gravedad = 10 * pxm
@@ -1027,7 +1035,7 @@ scene.setBackgroundImage(img`
     7777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777
     `)
 IniciadordeAnimaciones()
-CrearJUgador(mariobros64)
+CrearJugador(mariobros64)
 numeroNiveles = 8
 nivelActual = 0
 Niveles(nivelActual)
@@ -1036,12 +1044,12 @@ game.onUpdate(function () {
     if (mariobros64.vx < 0) {
         perfilIzq = true
     } else if (mariobros64.vx > 0) {
-        perfilIzq = false
+        perfilDer = true
     }
     if (mariobros64.isHittingTile(CollisionDirection.Top)) {
         mariobros64.vy = 0
     }
-    if (controller.down.isPressed()) {
+    if (controller.left.isPressed()) {
         if (perfilIzq) {
             animation.setAction(mariobros64, ActionKind.CrouchLeft)
         } else {
